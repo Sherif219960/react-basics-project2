@@ -3,20 +3,32 @@ import Button from "./components/Ui/Button";
 import Input from "./components/Ui/Input";
 import Modal from "./components/Ui/Modal";
 import { FormInputList, ProductList } from "./data";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { IProduct } from "./interfaces";
 
 const App = () => {
   // STATE
+  const [product, setProduct] = useState<IProduct>({
+    title: "",
+    description: "",
+    imageURL: "",
+    price: "",
+    color: [],
+    category: { name: "", imageURL: "" },
+  });
+
   const [isOpen, setIsOpen] = useState(false);
 
   // HANDLER
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+    setProduct({
+      ...product,
+      [name]: value,
+    });
+  };
 
   // render productList
   const RenderProductList = ProductList.map((product) => (
@@ -33,21 +45,21 @@ const App = () => {
         {input.label}
       </label>
 
-      <Input name={input.name} id={input.id} type={input.type} />
+      <Input
+        name={input.name}
+        id={input.id}
+        type={input.type}
+        value={""}
+        onChange={onChangeHandler}
+      />
     </div>
   ));
 
   return (
     <div className="container mx-auto">
-      <div className="flex items-center  ">
-        <h2>title</h2>
-        <Button
-          className="bg-indigo-700 hover:bg-indigo-800"
-          onClick={openModal}
-        >
-          Add
-        </Button>
-      </div>
+      <Button className="bg-indigo-700 hover:bg-indigo-800" onClick={openModal}>
+        Add
+      </Button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {RenderProductList}
