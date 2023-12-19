@@ -7,15 +7,16 @@ import { ChangeEvent, useState } from "react";
 import { IProduct } from "./interfaces";
 
 const App = () => {
-  // STATE
-  const [product, setProduct] = useState<IProduct>({
+  const defaultProductObj = {
     title: "",
     description: "",
     imageURL: "",
     price: "",
     color: [],
     category: { name: "", imageURL: "" },
-  });
+  };
+  // STATE
+  const [product, setProduct] = useState<IProduct>(defaultProductObj);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,6 +29,16 @@ const App = () => {
       ...product,
       [name]: value,
     });
+  };
+
+  const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    console.log(product);
+  };
+
+  const onCancel = () => {
+    setProduct(defaultProductObj);
+    closeModal();
   };
 
   // render productList
@@ -64,13 +75,18 @@ const App = () => {
         {RenderProductList}
       </div>
       <Modal isOpen={isOpen} CloseModal={closeModal} title="Add New Product">
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={submitHandler}>
           {RenderFromInputList}
           <div className="flex items-center space-x-3 ">
             <Button className="bg-indigo-700 hover:bg-indigo-800">
               Submit
             </Button>
-            <Button className="bg-gray-300 hover:bg-gray-400">cancel</Button>
+            <Button
+              className="bg-gray-300 hover:bg-gray-400"
+              onClick={onCancel}
+            >
+              cancel
+            </Button>
           </div>
         </form>
       </Modal>
