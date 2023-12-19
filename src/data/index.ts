@@ -123,10 +123,4 @@ export const FormInputList: IFormInput[] = [
     label: "Product Price",
     type: "text",
   },
-  {
-    id: "category",
-    name: "category",
-    label: "Product Category",
-    type: "text",
-  },
 ];

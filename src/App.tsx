@@ -48,8 +48,7 @@ const App = () => {
       <Input
         name={input.name}
         id={input.id}
-        type={input.type}
-        value={""}
+        value={product[input.name]}
         onChange={onChangeHandler}
       />
     </div>
